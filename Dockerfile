@@ -1,4 +1,5 @@
-FROM alpine:3.15.0 as builder
+ARG ARCH=
+FROM ${ARCH}/alpine:3.15.0 as builder
 LABEL maintainer "5pyd3r.tarsylia@gmail.com"
 
 COPY 0001_fix_libc_name_pt_redefinition_error.patch Kindle_src_5.6.1.1_2634130033.tar.gz /root/
@@ -15,7 +16,7 @@ RUN apk add --no-cache gcc g++ make musl-dev gmp-dev mpfr-dev mpc1-dev zlib-dev 
 && patch -s -f -p1 < /root/0001_fix_libc_name_pt_redefinition_error.patch \
 && cd /root/build && make
 
-FROM alpine:3.15.0 as base
+FROM ${ARCH}/alpine:3.15.0 as base
 
 COPY --from=builder /root/build/cross-arm-linux-gnueabi-gcc-linaro-4.8-2014.04.tar.gz /root/
 
