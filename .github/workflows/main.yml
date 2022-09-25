@@ -21,7 +21,7 @@ jobs:
       - name: publish docker image
         uses: manusa/actions-publish-docker@v1.1.2
         with:
-          name: 5pyd3r/kindle-dev
+          name: 5pyd3r/kindle-dev:latest
           username: ${{ secrets.DOCKER_HUB_USER }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
       - name: inspect docker image
