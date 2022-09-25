@@ -14,7 +14,6 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
-	  - name: prepare kindle source archive.
-	    run: ./prepare.sh
-		run: ls ${{ github.workspace }}
+      - name: prepare kindle source archive.
+        run: ./prepare.sh && ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
