@@ -27,6 +27,4 @@ jobs:
           context: ${{ github.workspace }}
           tags: 5pyd3r/kindle-dev:latest
           platforms: linux/amd64
-      - name: inspect docker image
-        run: docker image inspect 5pyd3r/kindle-dev
       - run: echo "🍏 This job's status is ${{ job.status }}."
