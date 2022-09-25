@@ -18,4 +18,12 @@ jobs:
         run: ./prepare.sh && ls ${{ github.workspace }}
       - name: build docker image
         run: docker build -t 5pyd3r/kindle-dev --build-arg ARCH=amd64 .
+      - name: publish docker image
+        uses: manusa/actions-publish-docker@v1.1.2
+        with:
+          name: 5pyd3r/kindle-dev
+          username: ${{ secrets.DOCKER_HUB_USER }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+      - name: inspect docker image
+        run: docker image inspect 5pyd3r/kindle-dev
       - run: echo "🍏 This job's status is ${{ job.status }}."
