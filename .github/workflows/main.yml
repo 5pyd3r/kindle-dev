@@ -16,4 +16,6 @@ jobs:
           ls ${{ github.workspace }}
       - name: prepare kindle source archive.
         run: ./prepare.sh && ls ${{ github.workspace }}
+      - name: build docker image
+        run: docker build -t 5pyd3r/kindle-dev --build-arg ARCH=amd64 .
       - run: echo "🍏 This job's status is ${{ job.status }}."
