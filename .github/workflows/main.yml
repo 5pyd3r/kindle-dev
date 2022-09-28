@@ -1,5 +1,8 @@
 name: Build cross compile environment for jailbroken kindle paperwhite
-on: [push]
+on:
+  push:
+    branches:
+	  - master
 jobs:
   Build-Kindle-Develop-Environment:
     runs-on: ubuntu-latest
