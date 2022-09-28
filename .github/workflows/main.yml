@@ -1,10 +1,11 @@
 name: Build cross compile environment for jailbroken kindle paperwhite
 on:
-  push:
-    branches:
-      - master
+  pull_request:
+    types:
+      - closed
 jobs:
   Build-Kindle-Develop-Environment:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
