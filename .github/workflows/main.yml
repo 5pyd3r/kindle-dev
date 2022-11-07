@@ -1,11 +1,12 @@
 name: Build cross compile environment for jailbroken kindle paperwhite
 on:
+  workflow_dispatch:
   pull_request:
     types:
       - closed
 jobs:
   Build-Kindle-Develop-Environment:
-    if: github.event.pull_request.merged == true
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.pull_request.merged == true }}$
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
@@ -21,11 +22,13 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
       - name: prepare kindle source archive.
         run: ./prepare.sh && ls ${{ github.workspace }}
+      - name: set image publish tag
+        run: echo "RELEASE_TAG=$(date +'%Y%m%d')" >> ${GITHUB_ENV}
       - name: publish docker image
         uses: docker/build-push-action@v3
         with:
           push: true
           context: ${{ github.workspace }}
-          tags: 5pyd3r/kindle-dev:latest
-          platforms: linux/amd64,linux/arm/v7
+          tags: 5pyd3r/kindle-dev:${RELEASE_TAG}
+          platforms: linux/amd64,linux/arm64
       - run: echo "🍏 This job's status is ${{ job.status }}."
