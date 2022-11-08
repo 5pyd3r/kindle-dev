@@ -22,13 +22,24 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
       - name: prepare kindle source archive.
         run: ./prepare.sh && ls ${{ github.workspace }}
-      - name: set image publish tag
-        run: echo "RELEASE_TAG=$(date +'%Y%m%d')" >> ${GITHUB_ENV}
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: 5pyd3r/kindle-dev
+          tags: |
+            # minimal
+            #type=schedule
+            # default
+            #type=schedule,pattern=nightly
+            # handlebars
+            type=schedule,pattern={{date 'YYYYMMDD'}}
       - name: publish docker image
         uses: docker/build-push-action@v3
         with:
           push: true
           context: ${{ github.workspace }}
-          tags: 5pyd3r/kindle-dev:${RELEASE_TAG}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
           platforms: linux/amd64,linux/arm64
       - run: echo "🍏 This job's status is ${{ job.status }}."
